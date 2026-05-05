@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE | Request Invitation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxe: {
+                            obsidian: '#050505',
+                            charcoal: '#0F0F0F',
+                            gold: '#C5A059',
+                            border: 'rgba(197, 160, 89, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: white; overflow-x: hidden; }
+        .glass-portal { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--luxe-border); backdrop-filter: blur(25px); }
+        .input-luxe { background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.5s ease; }
+        .input-luxe:focus { border-color: #C5A059; outline: none; }
+        .hero-bg-text { font-size: 20rem; position: absolute; font-family: 'Playfair Display', serif; font-style: italic; opacity: 0.01; pointer-events: none; z-index: 0; line-height: 1; }
+    </style>
+</head>
+<body class="font-sans antialiased flex items-center justify-center min-h-screen relative py-20">
+
+    <div class="hero-bg-text top-0 -left-20">EST</div>
+    <div class="hero-bg-text bottom-0 -right-20">2026</div>
+
+    <div class="w-full max-w-[500px] px-6 relative z-10 animate-[fadeIn_1.5s_ease]">
+        
+        <div class="text-center mb-16 space-y-4">
+            <a href="dashboard.html" class="text-3xl font-serif font-bold tracking-[12px] block">LUXE<span class="text-luxe-gold">.</span></a>
+            <div class="h-[1px] w-12 bg-luxe-gold mx-auto opacity-30"></div>
+            <p class="text-luxe-gold text-[10px] font-bold tracking-[6px] uppercase">Haute Couture Experience</p>
+        </div>
+
+        <div class="glass-portal p-10 md:p-16 space-y-12">
+            <header class="text-center space-y-3">
+                <h2 class="text-4xl font-serif italic">Join the Atelier</h2>
+                <p class="text-white/30 text-[10px] tracking-[3px] uppercase leading-relaxed font-light">Enter your details to request exclusive membership</p>
+            </header>
+
+            <form id="signupForm" class="space-y-10">
+                <div class="space-y-2 group">
+                    <label class="text-[9px] font-bold tracking-[4px] uppercase opacity-40 group-focus-within:text-luxe-gold transition-colors">Legal Identity (Full Name)</label>
+                    <input type="text" id="name" placeholder="ALEXANDRA SMITH" required
+                        class="input-luxe w-full py-4 text-xl font-serif tracking-wide uppercase placeholder:opacity-10">
+                </div>
+
+                <div class="space-y-2 group">
+                    <label class="text-[9px] font-bold tracking-[4px] uppercase opacity-40 group-focus-within:text-luxe-gold transition-colors">Communication Link (Phone)</label>
+                    <input type="text" id="phone" placeholder="000 000 0000" required
+                        class="input-luxe w-full py-4 text-xl font-serif tracking-widest placeholder:opacity-10">
+                </div>
+
+                <div class="space-y-2 group">
+                    <label class="text-[9px] font-bold tracking-[4px] uppercase opacity-40 group-focus-within:text-luxe-gold transition-colors">Security Cipher (Password)</label>
+                    <input type="password" id="password" required
+                        class="input-luxe w-full py-4 text-xl font-serif tracking-widest">
+                </div>
+
+                <div class="pt-8">
+                    <button type="submit" id="submitBtn"
+                        class="w-full bg-luxe-gold text-black font-bold py-6 tracking-[6px] uppercase text-[11px] hover:bg-white transition-all duration-700 shadow-2xl">
+                        Submit Invitation Request
+                    </button>
+                </div>
+            </form>
+
+            <footer class="text-center pt-4">
+                <p class="text-white/30 text-[10px] tracking-[2px] uppercase">
+                    Already a Member? 
+                    <a href="login.html" class="text-luxe-gold hover:underline ml-2">Identify Yourself</a>
+                </p>
+            </footer>
+        </div>
+
+        <div class="mt-16 text-center opacity-20">
+            <p class="text-[8px] tracking-[6px] uppercase">Bespoke Management Systems • Global Standard</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const data = { 
+                name: document.getElementById('name').value, 
+                phone: document.getElementById('phone').value, 
+                password: document.getElementById('password').value 
+            };
+            
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-pulse tracking-[8px]">PROCESSING REQUEST...</span>`;
+
+            try {
+                const res = await fetch('http://localhost:3000/user/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                if(res.ok) {
+                    window.location.href = 'login.html?msg=Invitation validated. Please identify yourself to begin.';
+                } else {
+                    const err = await res.json();
+                    alert(err.message || "Registration failed.");
+                    btn.disabled = false;
+                    btn.innerHTML = "Submit Invitation Request";
+                }
+            } catch (error) {
+                alert("Connection with Atelier server failed.");
+                btn.disabled = false;
+                btn.innerHTML = "Submit Invitation Request";
+            }
+        }
+    </script>
+</body>
+</html>

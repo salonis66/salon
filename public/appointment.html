@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LUXE | Private Reservation</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxe: {
+                            black: '#050505',
+                            charcoal: '#0F0F0F',
+                            gold: '#C5A059',
+                            border: 'rgba(197, 160, 89, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .premium-blur { backdrop-filter: blur(20px); background: rgba(5, 5, 5, 0.85); }
+        .glass-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(197, 160, 89, 0.15); backdrop-filter: blur(10px); }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 10px; }
+    </style>
+</head>
+
+<body class="bg-luxe-black text-white font-sans transition-colors duration-700 min-h-screen overflow-x-hidden">
+
+    <div id="flash-message" class="fixed top-20 right-4 z-[60] p-4 bg-luxe-gold text-black font-bold text-[10px] tracking-[3px] uppercase hidden shadow-2xl max-w-[90vw]"></div>
+
+    <nav class="fixed w-full z-50 premium-blur border-b border-luxe-border py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="dashboard.html" class="text-xl lg:text-2xl font-serif font-bold tracking-[4px] lg:tracking-[6px]">
+            LUXE<span class="text-luxe-gold">.</span>
+        </a>
+        <div id="nav-auth" class="text-[9px] sm:text-[10px] uppercase opacity-60 tracking-widest"></div>
+    </nav>
+
+    <main class="max-w-[1000px] mx-auto px-4 sm:px-6 pt-28 lg:pt-40 space-y-8 lg:space-y-12 pb-20">
+
+        <header class="text-center space-y-4">
+            <span class="text-luxe-gold text-[9px] sm:text-[10px] font-bold tracking-[4px] uppercase">Reservation Desk</span>
+            <h1 class="text-3xl sm:text-5xl lg:text-7xl font-serif italic leading-tight">Secure Experience</h1>
+        </header>
+
+        <div class="glass-panel p-6 sm:p-10 lg:p-12 space-y-6">
+            <div class="flex items-center space-x-4">
+                <span class="text-luxe-gold font-serif italic text-xl lg:text-2xl">01.</span>
+                <h3 class="text-[10px] sm:text-xs font-bold tracking-[3px] uppercase opacity-70">Select Date</h3>
+            </div>
+            <input type="date" id="dateInput"
+                class="w-full bg-transparent border-b border-white/10 py-3 text-xl sm:text-2xl lg:text-4xl font-serif focus:outline-none focus:border-luxe-gold transition duration-500">
+        </div>
+
+        <div class="glass-panel p-6 sm:p-10 lg:p-12 space-y-6">
+            <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                <div class="flex items-center space-x-4">
+                    <span class="text-luxe-gold font-serif italic text-xl lg:text-2xl">02.</span>
+                    <h3 class="text-[10px] sm:text-xs font-bold tracking-[3px] uppercase opacity-70">Collection</h3>
+                </div>
+                <a href="dashboard.html#services" class="text-[9px] font-bold tracking-[2px] uppercase text-luxe-gold hover:underline">Add More +</a>
+            </div>
+            <div id="servicesDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                </div>
+        </div>
+
+        <div class="px-2 mt-8">
+            <button id="generateBtn"
+                class="w-full bg-luxe-gold text-black font-bold py-5 sm:py-6 tracking-[5px] uppercase text-[10px] sm:text-[11px] hover:bg-white transition-all duration-500 shadow-xl active:scale-[0.98]">
+                Generate Available Slots
+            </button>
+        </div>
+
+        <div id="slotsResponseSection" class="hidden glass-panel p-6 sm:p-10 lg:p-12 space-y-8 mb-10 animate-[fadeIn_0.5s_ease]">
+            <div class="flex items-center space-x-4">
+                <span class="text-luxe-gold font-serif italic text-xl lg:text-2xl">03.</span>
+                <h3 class="text-[10px] sm:text-xs font-bold tracking-[3px] uppercase opacity-70">Your Moment</h3>
+            </div>
+            <div id="slotsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                </div>
+        </div>
+
+    </main>
+
+    <script>
+        async function checkLogin() {
+
+    try {
+
+        const res = await fetch("http://localhost:3000/user/auth/check", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if(res.status === 200){
+            return true;
+        }
+
+        return false;
+
+    } catch(err){
+        console.log("checkLogin error:", err);
+        return false;
+    }
+
+}
+        let selectedDateForBooking = localStorage.getItem('selectedDate') || "";
+
+        function showFlash(message, type = "success") {
+            const flash = document.getElementById('flash-message');
+            flash.innerHTML = message;
+            flash.classList.remove('hidden');
+            flash.style.backgroundColor = type === 'success' ? '#C5A059' : '#ef4444';
+            setTimeout(() => flash.classList.add('hidden'), 4000);
+        }
+
+        async function loadCart() {
+            try {
+                const res = await fetch('http://localhost:3000/service/getCartServices');
+                const data = await res.json();
+                const container = document.getElementById('servicesDisplay');
+
+                if (data.services?.length) {
+                    container.innerHTML = data.services.map(s => `
+                        <div class="flex justify-between items-center p-5 border border-white/5 bg-white/[0.02] hover:border-luxe-gold/30 transition-all">
+                            <div class="space-y-1">
+                                <h4 class="font-serif text-base lg:text-lg italic tracking-wide">${s.name}</h4>
+                                <span class="text-luxe-gold font-bold text-[11px]">₹${s.price}</span>
+                            </div>
+                            <button onclick="removeFromCart(${s.id})" class="text-white/20 hover:text-red-500 p-2 transition-colors">
+                                <i class="fas fa-trash-alt text-xs"></i>
+                            </button>
+                        </div>`).join('');
+                } else {
+                    container.innerHTML = `<p class="text-white/30 italic text-[10px] text-center col-span-full uppercase tracking-widest py-10 border border-dashed border-white/10">Atelier cart empty</p>`;
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function removeFromCart(id) {
+            if (!confirm("Terminate this selection?")) return;
+            await fetch(`http://localhost:3000/service/remove-from-cart/${id}`);
+            showFlash("Collection Updated");
+            loadCart();
+            document.getElementById('slotsResponseSection').classList.add('hidden');
+        }
+
+        document.getElementById('generateBtn').onclick = async () => {
+            if (!selectedDateForBooking) return showFlash("Select a date", "danger");
+
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-pulse tracking-[2px]">ORCHESTRATING...</span>`;
+
+            try {
+                const res = await fetch('http://localhost:3000/appointment/getSlots', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ date: selectedDateForBooking })
+                });
+                const result = await res.json();
+                document.getElementById('slotsResponseSection').classList.remove('hidden');
+                document.getElementById('slotsGrid').innerHTML = result.availableSlots.map(slot => `
+                    <button onclick="createBookingIntent('${slot.startTime}','${slot.endTime}')"
+                        class="p-4 border border-white/10 font-serif italic text-sm text-center hover:bg-luxe-gold hover:text-black transition-all duration-500">
+                        ${slot.startTime} — ${slot.endTime}
+                    </button>`).join('');
+
+                window.scrollTo({
+                    top: document.getElementById('slotsResponseSection').offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            } catch (error) { showFlash("Registry unreachable", "danger"); }
+            finally {
+                btn.disabled = false;
+                btn.innerHTML = "Generate Available Slots";
+            }
+        };
+
+        async function createBookingIntent(start, end) {
+            const res = await fetch('http://localhost:3000/appointment/booking-intent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ date: selectedDateForBooking, startTime: start, endTime: end })
+            });
+            const data = await res.json();
+            if (data.id) {
+                sessionStorage.setItem('bookingIntent', JSON.stringify(data));
+                window.location.href = 'payment.html';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            const dateInput = document.getElementById('dateInput');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+            
+            const authDiv = document.getElementById('nav-auth');
+            authDiv.innerHTML = checkLogin()
+                ? `<a href="profile.html" class="hover:text-luxe-gold transition tracking-widest border-b border-luxe-gold/20 pb-0.5">Atelier ID</a>`
+                : `<a href="login.html" class="hover:text-luxe-gold transition tracking-widest border-b border-luxe-gold/20 pb-0.5">Identify</a>`;
+
+            if (selectedDateForBooking) dateInput.value = selectedDateForBooking;
+        });
+
+        document.getElementById('dateInput').addEventListener('change', (e) => {
+            selectedDateForBooking = e.target.value;
+            localStorage.setItem('selectedDate', selectedDateForBooking);
+        });
+
+        
+    </script>
+</body>
+</html>

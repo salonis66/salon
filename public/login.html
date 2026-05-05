@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE | Member Identification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxe: {
+                            obsidian: '#050505',
+                            charcoal: '#0F0F0F',
+                            gold: '#C5A059',
+                            champagne: '#F7F1E3',
+                            border: 'rgba(197, 160, 89, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Changed overflow to allow scrolling on tablets when zoomed */
+        body { background-color: #050505; color: white; min-height: 100vh; overflow-y: auto; overflow-x: hidden; }
+        .glass-portal { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--luxe-border); backdrop-filter: blur(25px); }
+        .input-luxe { background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.5s ease; border-radius: 0; }
+        .input-luxe:focus { border-color: #C5A059; outline: none; }
+        .hero-gradient { background: radial-gradient(circle at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%); }
+        
+        /* Adjusted background decals for tablet aspect ratios */
+        .bg-decal { pointer-events: none; z-index: 0; position: fixed; font-family: 'Playfair Display', serif; font-style: italic; opacity: 0.02; line-height: 1; }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col items-center justify-center p-6 md:p-12 relative">
+
+    <div class="fixed inset-0 hero-gradient pointer-events-none"></div>
+    <div class="bg-decal top-5 left-5 text-[10rem] md:text-[15rem]">L</div>
+    <div class="bg-decal bottom-5 right-5 text-[10rem] md:text-[15rem]">UXE</div>
+
+    <div class="w-full max-w-[450px] relative z-10 py-10 animate-[fadeIn_1s_ease]">
+        
+        <div class="text-center mb-10">
+            <a href="dashboard.html" class="text-2xl md:text-3xl font-serif font-bold tracking-[8px] md:tracking-[10px] block mb-4">LUXE<span class="text-luxe-gold">.</span></a>
+            <span class="text-luxe-gold text-[9px] md:text-[10px] font-bold tracking-[4px] md:tracking-[5px] uppercase opacity-60">Atelier Identification</span>
+        </div>
+
+        <div class="glass-portal p-8 md:p-12 space-y-8 md:space-y-10 shadow-2xl">
+            <header class="text-center space-y-2">
+                <h2 class="text-3xl md:text-4xl font-serif italic">Welcome Back</h2>
+                <p class="text-white/30 text-[9px] md:text-[10px] tracking-[2px] uppercase">Identify access to the atelier</p>
+            </header>
+
+            <form id="loginForm" class="space-y-6 md:space-y-8">
+                <div class="space-y-2 group">
+                    <label class="text-[8px] md:text-[9px] font-bold tracking-[3px] uppercase opacity-40 group-focus-within:text-luxe-gold transition-colors">Digital Identity (Phone)</label>
+                    <input type="text" id="phone" placeholder="000 000 0000" required
+                        class="input-luxe w-full py-3 md:py-4 text-lg md:text-xl font-serif tracking-widest placeholder:opacity-20 focus:placeholder:opacity-0">
+                </div>
+
+                <div class="space-y-2 group">
+                    <label class="text-[8px] md:text-[9px] font-bold tracking-[3px] uppercase opacity-40 group-focus-within:text-luxe-gold transition-colors">Security Key</label>
+                    <input type="password" id="password" required
+                        class="input-luxe w-full py-3 md:py-4 text-lg md:text-xl font-serif tracking-widest">
+                </div>
+
+                <div class="pt-4 md:pt-6">
+                    <button type="submit" id="submitBtn"
+                        class="w-full bg-luxe-gold text-black font-bold py-5 md:py-6 tracking-[5px] md:tracking-[6px] uppercase text-[10px] md:text-[11px] hover:bg-white transition-all duration-700 shadow-xl active:scale-[0.98]">
+                        Identify & Access
+                    </button>
+                </div>
+            </form>
+
+            <footer class="text-center pt-4 border-t border-white/5">
+                <p class="text-white/30 text-[9px] md:text-[10px] tracking-[2px] uppercase">
+                    New Member? 
+                    <a href="signup.html" class="text-luxe-gold hover:underline ml-2">Request Invitation</a>
+                </p>
+            </footer>
+        </div>
+
+        <div class="mt-8 md:mt-12 text-center opacity-20">
+            <p class="text-[7px] md:text-[8px] tracking-[4px] uppercase">Secure End-to-End Encrypted Session</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const data = { 
+                phone: document.getElementById('phone').value, 
+                password: document.getElementById('password').value 
+            };
+            
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-pulse tracking-[6px]">VERIFYING...</span>`;
+
+            try {
+                const res = await fetch('http://localhost:3000/user/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                if(res.ok) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'dashboard.html?msg=Access Granted.';
+                } else {
+                    const err = await res.json();
+                    alert(err.message || "Identification failed.");
+                    btn.disabled = false;
+                    btn.innerHTML = "Identify & Access";
+                }
+            } catch (error) {
+                alert("Atelier server unreachable.");
+                btn.disabled = false;
+                btn.innerHTML = "Identify & Access";
+            }
+        }
+    </script>
+</body>
+</html>

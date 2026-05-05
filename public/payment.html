@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE | Secure Transaction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxe: {
+                            black: '#050505',
+                            charcoal: '#0F0F0F',
+                            gold: '#C5A059',
+                            champagne: '#F7F1E3',
+                            border: 'rgba(197, 160, 89, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .premium-blur { backdrop-filter: blur(20px); background: rgba(5, 5, 5, 0.8); }
+        .glass-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--luxe-border); backdrop-filter: blur(15px); }
+        .receipt-dashed { border-top: 2px dashed rgba(197, 160, 89, 0.2); }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="bg-luxe-black text-white selection:bg-luxe-gold selection:text-black font-sans transition-colors duration-700 min-h-screen flex flex-col overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 premium-blur border-b border-luxe-border">
+        <div class="max-w-[1800px] mx-auto px-8 py-5 flex justify-between items-center">
+            <a href="dashboard.html" class="text-2xl font-serif font-bold tracking-[8px]">LUXE<span class="text-luxe-gold">.</span></a>
+            <a href="appointment.html" class="text-[10px] font-bold tracking-[3px] uppercase opacity-60 hover:opacity-100 transition">Exit Checkout</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center px-6 pt-32 pb-20">
+        <div class="w-full max-w-[600px] space-y-12">
+            
+            <div id="checkout-view" class="glass-panel p-10 md:p-16 space-y-10 animate-[fadeIn_1s_ease]">
+                <header class="text-center space-y-4">
+                    <span class="text-luxe-gold text-[10px] font-bold tracking-[5px] uppercase">Secure Encrypted Payment</span>
+                    <h1 class="text-4xl md:text-5xl font-serif italic">Finalize Reservation</h1>
+                </header>
+
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h6 class="text-[10px] font-bold tracking-[3px] uppercase text-white/40 border-b border-white/5 pb-2">Experience Details</h6>
+                        <div id="servicesList" class="space-y-3">
+                            </div>
+                    </div>
+
+                    <div class="bg-white/5 p-8 space-y-5">
+                        <div class="flex justify-between text-sm italic font-serif"><span>Gross Total</span><span id="totalAmount" class="opacity-60"></span></div>
+                        <div class="flex justify-between text-sm text-green-400 italic font-serif"><span>Privilege Discount</span><span id="discountAmount"></span></div>
+                        <div class="receipt-dashed pt-6 flex justify-between items-baseline">
+                            <span class="font-serif text-2xl italic">Final Investment</span>
+                            <span id="finalAmount" class="text-3xl font-bold text-luxe-gold"></span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[9px] font-bold tracking-[2px] uppercase text-red-400">Min. Deposit Authorization: <span id="minPayable"></span></span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="text-[10px] font-bold tracking-[3px] uppercase opacity-50 block">Amount to Authorize (INR)</label>
+                        <input type="number" id="paidAmountInput" 
+                            class="w-full bg-transparent border-b border-white/10 py-4 text-4xl font-serif focus:outline-none focus:border-luxe-gold transition-all duration-500">
+                    </div>
+
+                    <button id="payNowBtn" class="w-full py-6 bg-luxe-gold text-black font-bold tracking-[5px] uppercase text-[11px] hover:bg-white transition-all duration-700 shadow-2xl">
+                        Authorize & Pay
+                    </button>
+                </div>
+            </div>
+
+            <div id="receipt-view" class="hidden glass-panel p-10 md:p-16 space-y-10 text-center animate-[fadeIn_1s_ease]">
+                <div class="w-24 h-24 bg-luxe-gold/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-luxe-gold/20">
+                    <i class="fas fa-check text-luxe-gold text-4xl"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif italic">Reservation Confirmed</h2>
+                <p class="text-white/40 text-sm italic font-light">Your moment of serenity has been secured.</p>
+                
+                <div id="receiptDetails" class="text-left bg-white/5 p-8 space-y-4 font-light">
+                    </div>
+
+                <div class="grid grid-cols-1 gap-4 pt-6">
+                    <button onclick="window.print()" class="w-full py-4 border border-white/10 text-[10px] font-bold tracking-[3px] uppercase hover:bg-white hover:text-black transition-all">
+                        <i class="fas fa-print me-2"></i> Print Archive
+                    </button>
+                    <a href="dashboard.html" class="text-luxe-gold text-[10px] font-bold tracking-[4px] uppercase hover:underline">Return to Atelier</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const intentData = JSON.parse(sessionStorage.getItem('bookingIntent'));
+
+        if (!intentData) {
+            window.location.href = 'appointment.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('totalAmount').innerText = `₹${intentData.totalAmount}`;
+            document.getElementById('discountAmount').innerText = `- ₹${intentData.discountAmount}`;
+            document.getElementById('finalAmount').innerText = `₹${intentData.finalAmount}`;
+            document.getElementById('minPayable').innerText = `₹10`;
+            document.getElementById('paidAmountInput').value = 10;
+
+            const list = document.getElementById('servicesList');
+            intentData.services.forEach(s => {
+                list.innerHTML += `
+                    <div class="flex justify-between text-sm italic font-serif">
+                        <span class="opacity-80">${s.name}</span>
+                        <span class="opacity-40">₹${s.price}</span>
+                    </div>`;
+            });
+        });
+
+        document.getElementById('payNowBtn').onclick = async () => {
+            const btn = document.getElementById('payNowBtn');
+            const amount = parseFloat(document.getElementById('paidAmountInput').value);
+            const finalAmount = parseFloat(intentData.finalAmount);
+
+            if (amount < 10) return alert("Minimum ₹10 required.");
+            if (amount > finalAmount) return alert("Amount cannot exceed total.");
+
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-pulse tracking-[10px]">VERIFYING...</span>`;
+
+            try {
+                const res = await fetch(`http://localhost:3000/appointment/create/${intentData.id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ paid_amount: amount })
+                });
+                const result = await res.json();
+                if (result.bill) showFinalReceipt(result.bill);
+            } catch (err) {
+                alert("Server error");
+                btn.disabled = false;
+                btn.innerHTML = "Authorize & Pay";
+            }
+        };
+
+        function showFinalReceipt(bill) {
+            document.getElementById('checkout-view').classList.add('hidden');
+            document.getElementById('receipt-view').classList.remove('hidden');
+
+            const details = document.getElementById('receiptDetails');
+            let warning = "";
+
+            if (bill.appointmentStatus === "pending") {
+                warning = `<div class="p-4 bg-red-900/20 border border-red-500/20 text-red-400 text-[10px] tracking-[2px] uppercase text-center mt-6">
+                            ⚠️ Deposit insufficient for instant confirmation.
+                           </div>`;
+            }
+
+            details.innerHTML = `
+                <div class="space-y-3 text-xs tracking-[1px]">
+                    <div class="flex justify-between border-b border-white/5 pb-2"><span>Atelier ID</span><span class="text-luxe-gold">#${bill.appointmentId}</span></div>
+                    <div class="flex justify-between border-b border-white/5 pb-2"><span>Guest</span><span>${bill.customer.name}</span></div>
+                    <div class="flex justify-between border-b border-white/5 pb-2"><span>Time Slot</span><span>${bill.timeSlot}</span></div>
+                    
+                    <div class="pt-6 space-y-2 italic font-serif opacity-60">
+                        ${bill.services.map(s => `<div class="flex justify-between"><span>${s.name}</span><span>₹${s.price}</span></div>`).join('')}
+                    </div>
+
+                    <div class="pt-8 flex justify-between text-lg font-serif"><span>Authorized Paid</span><span class="text-luxe-gold">₹${bill.pricing.paidAmount}</span></div>
+                    <div class="flex justify-between text-xs opacity-40"><span>Remaining Balance</span><span>₹${bill.pricing.remainingAmount}</span></div>
+                    
+                    <div class="mt-8 p-3 bg-white/5 text-center text-[10px] tracking-[4px] uppercase font-bold text-luxe-gold border border-luxe-gold/20">
+                        Status: ${bill.appointmentStatus}
+                    </div>
+                    ${warning}
+                </div>`;
+            
+            sessionStorage.removeItem('bookingIntent');
+        }
+    </script>
+</body>
+</html>

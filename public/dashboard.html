@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE | Haute Couture Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxe: {
+                            black: '#050505',
+                            charcoal: '#0F0F0F',
+                            gold: '#C5A059',
+                            champagne: '#F7F1E3',
+                            border: 'rgba(197, 160, 89, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .premium-blur { backdrop-filter: blur(20px); background: rgba(5, 5, 5, 0.8); }
+        .light .premium-blur { background: rgba(255, 255, 255, 0.8); }
+        .gold-shimmer { background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.2), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        section { scroll-margin-top: 100px; }
+    </style>
+</head>
+<body class="bg-luxe-black text-white selection:bg-luxe-gold selection:text-black font-sans transition-colors duration-700 overflow-x-hidden">
+
+    <nav id="navbar" class="fixed w-full z-50 premium-blur border-b border-luxe-border transition-all duration-500">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-5 flex justify-between items-center">
+            <div class="flex items-center space-x-12">
+                <a href="dashboard.html" class="text-xl lg:text-2xl font-serif font-bold tracking-[4px] lg:tracking-[8px]">
+                    LUXE<span class="text-luxe-gold">.</span>
+                </a>
+                <div class="hidden lg:flex space-x-8 text-[10px] font-bold tracking-[3px] uppercase opacity-60">
+                    <a href="#services" class="hover:opacity-100 transition">Collection</a>
+                    <a href="appointment.html" class="hover:opacity-100 transition">Reservations</a>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3 lg:space-x-6">
+                <button onclick="toggleTheme()" class="text-luxe-gold p-2 hover:scale-110 transition">
+                    <i id="themeIcon" class="fas fa-moon text-sm lg:text-base"></i>
+                </button>
+                <div id="nav-auth" class="hidden md:block text-[10px] font-bold tracking-[2px] uppercase text-white/80"></div>
+                <a href="appointment.html" class="hidden sm:inline-block bg-luxe-gold text-black px-4 lg:px-8 py-2.5 lg:py-3 text-[9px] lg:text-[10px] font-bold tracking-[3px] uppercase hover:bg-white transition-all duration-500">
+                    Book Experience
+                </a>
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-luxe-gold text-xl p-2 focus:outline-none">
+                    <i id="menuIcon" class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden lg:hidden bg-luxe-black border-t border-luxe-border animate-[fadeIn_0.3s_ease]">
+            <div class="flex flex-col items-center py-10 space-y-8 text-[12px] font-bold tracking-[4px] uppercase">
+                <a href="#services" class="hover:text-luxe-gold transition" onclick="toggleMobileMenu()">Collection</a>
+                <a href="appointment.html" class="hover:text-luxe-gold transition" onclick="toggleMobileMenu()">Reservations</a>
+                <div id="nav-auth-mobile" class="text-luxe-gold"></div>
+                <a href="appointment.html" class="sm:hidden bg-luxe-gold text-black px-10 py-4 w-4/5 text-center">Book Experience</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="h-[80vh] md:h-screen relative flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-luxe-black z-10"></div>
+        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=1169&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover scale-105" alt="Hero">
+        <div class="relative z-20 text-center space-y-6 md:space-y-8 px-4">
+            <span class="text-luxe-gold tracking-[6px] md:tracking-[10px] uppercase text-[9px] md:text-[10px] block opacity-80 font-bold">Private Wellness Club</span>
+            <h1 class="text-4xl sm:text-6xl md:text-[100px] lg:text-[120px] font-serif leading-tight italic font-light">
+                Redefining <br class="sm:hidden"><span class="text-white not-italic font-bold">Luxury</span>
+            </h1>
+            <p class="max-w-xs sm:max-w-xl mx-auto text-xs md:text-lg text-white/50 font-light leading-relaxed tracking-wide">Where high-end artistry meets absolute serenity. Experience the future of beauty management.</p>
+            <div class="pt-6">
+                <a href="#services" class="inline-block px-10 md:px-14 py-4 md:py-5 border border-luxe-gold text-luxe-gold text-[10px] font-bold tracking-[4px] uppercase hover:bg-luxe-gold hover:text-black transition-all duration-700">
+                    Explore Collection
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-[1700px] mx-auto px-4 sm:px-8 lg:px-16 space-y-24 md:space-y-48 pb-32">
+
+        <section class="pt-20 md:pt-32">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-20 gap-6 text-center md:text-left border-b border-white/5 pb-10">
+                <div class="space-y-4">
+                    <span class="text-luxe-gold text-[9px] md:text-[10px] font-bold tracking-[5px] uppercase">Member Benefits</span>
+                    <h2 class="text-3xl md:text-7xl font-serif">Exclusive Offers</h2>
+                </div>
+                <p class="max-w-xs text-[10px] md:text-xs text-white/40 leading-loose uppercase tracking-widest font-light">Limited time journeys curated for our most distinguished guests.</p>
+            </div>
+            <div id="offers-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10"></div>
+        </section>
+
+        <section id="services">
+            <div class="text-center mb-16 md:mb-24 space-y-4 md:space-y-6">
+                <span class="text-luxe-gold text-[9px] md:text-[10px] font-bold tracking-[5px] uppercase">Signature Services</span>
+                <h2 class="text-4xl md:text-8xl font-serif italic">The Collection</h2>
+            </div>
+            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10"></div>
+        </section>
+
+    </main>
+
+    <section class="bg-luxe-charcoal border-y border-luxe-border py-20 md:py-32 px-4 sm:px-8 lg:px-16">
+        <div class="max-w-[1700px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+            <div class="lg:col-span-4 space-y-6 md:space-y-10 text-center lg:text-left">
+                <h2 class="text-3xl md:text-5xl font-serif italic leading-tight">Elite Salon <br class="hidden lg:block"> Intelligence</h2>
+                <p class="text-white/40 text-xs md:text-sm leading-relaxed tracking-wide">Manage your empire with our standard analytics engine. Real-time revenue tracking and staff orchestration.</p>
+                <ul class="space-y-4 text-[9px] md:text-[10px] font-bold tracking-[3px] uppercase text-luxe-gold">
+                    <li><i class="fas fa-check me-2"></i> AI-Powered Slot Optimization</li>
+                    <li><i class="fas fa-check me-2"></i> Dynamic Pricing Engine</li>
+                </ul>
+            </div>
+            <div class="lg:col-span-8">
+                <div class="bg-black/40 border border-luxe-border p-6 md:p-8 relative overflow-hidden h-64 md:h-80 shadow-2xl">
+                    <div class="absolute top-0 right-0 w-32 md:w-64 h-32 md:h-64 gold-shimmer opacity-10 rotate-45"></div>
+                    <div class="flex justify-between items-center mb-10 border-b border-white/5 pb-4">
+                        <h4 class="text-[9px] md:text-[10px] font-bold tracking-[4px] uppercase text-white/60">Revenue Stream</h4>
+                        <span class="text-luxe-gold font-serif text-lg">₹1,42,000.00</span>
+                    </div>
+                    <div class="h-32 md:h-40 flex items-end justify-between gap-1 md:gap-3">
+                        <div class="bg-luxe-gold/10 w-full h-[40%] hover:bg-luxe-gold transition-all duration-500"></div>
+                        <div class="bg-luxe-gold/20 w-full h-[70%] hover:bg-luxe-gold transition-all duration-500"></div>
+                        <div class="bg-luxe-gold/40 w-full h-[55%] hover:bg-luxe-gold transition-all duration-500"></div>
+                        <div class="bg-luxe-gold w-full h-[90%]"></div>
+                        <div class="bg-luxe-gold/20 w-full h-[30%] hover:bg-luxe-gold transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 md:py-24 px-4 sm:px-8 lg:px-16 border-t border-white/5 bg-[#030303]">
+        <div class="max-w-[1700px] mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-center md:text-left">
+                <h3 class="font-serif text-2xl md:text-3xl mb-4 tracking-[6px]">LUXE<span class="text-luxe-gold">.</span></h3>
+                <p class="text-white/30 text-[8px] md:text-[10px] tracking-[2px] uppercase">© 2026 LUXE GLOBAL ATELIER. ALL RIGHTS RESERVED.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12 text-[9px] md:text-[10px] font-bold tracking-[3px] uppercase text-white/50">
+                <a href="#" class="hover:text-luxe-gold transition">Instagram</a>
+                <a href="#" class="hover:text-luxe-gold transition">Private Club</a>
+                <a href="#" class="hover:text-luxe-gold transition">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// Ensure the page is loaded via the backend server so cookies work correctly
+if (location.origin !== 'http://localhost:3000') {
+    alert('Please open the app via http://localhost:3000/dashboard.html so login cookies work.');
+    window.location.href = 'http://localhost:3000/dashboard.html';
+}
+
+/* ---------------- MOBILE MENU ---------------- */
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('menuIcon');
+
+    menu.classList.toggle('hidden');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-times');
+}
+
+
+/* ---------------- THEME TOGGLE ---------------- */
+
+function toggleTheme() {
+    document.documentElement.classList.toggle('light');
+
+    localStorage.setItem(
+        'theme',
+        document.documentElement.classList.contains('light') ? 'light' : 'dark'
+    );
+
+    const icon = document.getElementById('themeIcon');
+    icon.className = document.documentElement.classList.contains('light')
+        ? 'fas fa-sun'
+        : 'fas fa-moon';
+}
+
+
+/* ---------------- LOGIN CHECK ---------------- */
+
+async function checkLogin() {
+
+    try {
+
+        const res = await fetch("http://localhost:3000/user/auth/check", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if(res.status === 200){
+            return true;
+        }
+
+        return false;
+
+    } catch(err){
+        console.log("checkLogin error:", err);
+        return false;
+    }
+
+}
+
+
+/* ---------------- ADD TO CART ---------------- */
+
+async function addToCart(id) {
+
+    const loggedIn = await checkLogin();
+    console.log(loggedIn)
+
+    if(!loggedIn){
+
+        window.location.href = "login.html";
+        return;
+
+    }
+
+    const res = await fetch(`http://localhost:3000/service/add_cart/${id}`, {
+        method: "POST",
+        credentials: "include"
+    });
+
+    if(res.ok){
+        window.location.href = "appointment.html";
+    }
+
+}
+
+
+/* ---------------- FETCH SERVICES ---------------- */
+
+async function fetchServices() {
+
+    try {
+
+        const res = await fetch("http://localhost:3000/service/services");
+        const result = await res.json();
+
+        const container = document.getElementById("services-container");
+
+        if(result.success){
+
+            container.innerHTML = result.data.map(service => {
+
+                const name = service.name.toLowerCase();
+
+let icon = "fa-sparkles";
+
+if(name.includes("hair")) icon = "fa-scissors";
+if(name.includes("facial") || name.includes("skin")) icon = "fa-face-smile-beam";
+if(name.includes("manicure") || name.includes("pedicure") || name.includes("spa")) icon = "fa-spa";
+if(name.includes("nail")) icon = "fa-hand-dots";
+if(name.includes("makeup")) icon = "fa-wand-magic-sparkles";
+if(name.includes("wax")) icon = "fa-droplet";
+
+                return `
+                <div class="group border border-white/5 p-6 md:p-10 flex flex-col justify-between bg-white/[0.01] hover:bg-luxe-gold/[0.03] transition-all duration-700 relative overflow-hidden h-full">
+
+                    <div class="relative z-10">
+
+                        <div class="flex justify-between items-start mb-10">
+
+                            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full border border-luxe-gold/20 flex items-center justify-center group-hover:border-luxe-gold transition-all duration-500 shadow-xl">
+
+                                <i class="fas ${icon} text-luxe-gold text-xl md:text-2xl"></i>
+
+                            </div>
+
+                        </div>
+
+                        <div class="space-y-4">
+
+                            <h4 class="text-xl md:text-2xl font-serif italic">
+                                ${service.name}
+                            </h4>
+
+                            <p class="text-white/40 text-[11px]">
+                                ${service.description || "Premium beauty experience"}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex justify-between items-center pt-8 border-t border-white/5 mt-8">
+
+                        <span class="text-luxe-gold font-bold text-lg">
+                            ₹${service.price}
+                        </span>
+
+                        <button onclick="addToCart(${service.id})"
+                            class="bg-white/5 hover:bg-luxe-gold hover:text-black border border-luxe-gold/20 px-6 py-3 text-[9px] font-bold tracking-[3px] uppercase transition-all duration-500">
+
+                            Reserve +
+
+                        </button>
+
+                    </div>
+
+                </div>
+                `;
+
+            }).join("");
+
+        }
+
+    } catch(err){
+        console.log(err);
+    }
+
+}
+
+
+/* ---------------- FETCH OFFERS ---------------- */
+
+async function fetchOffers(){
+
+    try{
+
+        const res = await fetch("http://localhost:3000/offer/getOffers");
+        const result = await res.json();
+
+        const container = document.getElementById("offers-container");
+
+        if(result.success){
+
+            container.innerHTML = result.data.map(offer => {
+
+                return `
+                <div class="border border-luxe-border p-10 space-y-6 hover:bg-luxe-gold/5 transition">
+
+                    <h3 class="text-2xl font-serif">${offer.title}</h3>
+
+                    <div class="text-4xl text-luxe-gold">
+                        ${offer.discount_value}% OFF
+                    </div>
+
+                </div>
+                `;
+
+            }).join("");
+
+        }
+
+    }catch(err){
+        console.log(err);
+    }
+
+}
+
+
+/* ---------------- PAGE LOAD ---------------- */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+    fetchOffers();
+    fetchServices();
+
+    const authDiv = document.getElementById("nav-auth");
+    const authDivMobile = document.getElementById("nav-auth-mobile");
+
+    const loggedIn = await checkLogin();
+
+    if(loggedIn){
+
+        const link = `<a href="profile.html"
+        class="hover:text-luxe-gold transition tracking-widest border-b border-luxe-gold/20 pb-0.5">
+        Private Office
+        </a>`;
+
+        authDiv.innerHTML = link;
+        authDivMobile.innerHTML = link;
+
+    } else {
+
+        const link = `<a href="login.html"
+        class="hover:text-luxe-gold transition tracking-widest border-b border-luxe-gold/20 pb-0.5">
+        Identify
+        </a>`;
+
+        authDiv.innerHTML = link;
+        authDivMobile.innerHTML = link;
+
+    }
+
+});
+</script>
+</body>
+</html>
