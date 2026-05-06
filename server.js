@@ -35,15 +35,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cors());
 
-    // Allow requests with no origin (e.g. mobile apps, curl)
-    if (!origin || allowed.includes(origin)) {
-      return callback(null, true);
-    }
 
-    callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true,
-}));
 
 
 app.use("/admin",adminRouter)
