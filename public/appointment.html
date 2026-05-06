@@ -104,7 +104,7 @@
 
     try {
 
-        const res = await fetch("https://salon-2-o4c3.onrender.com/user/auth/check", {
+        const res = await fetch("https://salon-2-r4ux.onrender.com/user/auth/check", {
             method: "GET",
             credentials: "include"
         });
@@ -133,7 +133,7 @@
 
         async function loadCart() {
             try {
-                const res = await fetch('https://salon-2-o4c3.onrender.com/service/getCartServices');
+                const res = await fetch('https://salon-2-r4ux.onrender.com/service/getCartServices');
                 const data = await res.json();
                 const container = document.getElementById('servicesDisplay');
 
@@ -156,7 +156,7 @@
 
         async function removeFromCart(id) {
             if (!confirm("Terminate this selection?")) return;
-            await fetch(`https://salon-2-o4c3.onrender.com/service/remove-from-cart/${id}`);
+            await fetch(`https://salon-2-r4ux.onrender.com/service/remove-from-cart/${id}`);
             showFlash("Collection Updated");
             loadCart();
             document.getElementById('slotsResponseSection').classList.add('hidden');
@@ -170,7 +170,7 @@
             btn.innerHTML = `<span class="animate-pulse tracking-[2px]">ORCHESTRATING...</span>`;
 
             try {
-                const res = await fetch('https://salon-2-o4c3.onrender.com/appointment/getSlots', {
+                const res = await fetch('https://salon-2-r4ux.onrender.com/appointment/getSlots', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ date: selectedDateForBooking })
@@ -195,7 +195,7 @@
         };
 
         async function createBookingIntent(start, end) {
-            const res = await fetch('https://salon-2-o4c3.onrender.com/appointment/booking-intent', {
+            const res = await fetch('https://salon-2-r4ux.onrender.com/appointment/booking-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ date: selectedDateForBooking, startTime: start, endTime: end })

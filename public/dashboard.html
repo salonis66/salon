@@ -161,9 +161,9 @@
 
     <script>
 // Ensure the page is loaded via the backend server so cookies work correctly
-if (location.origin !== 'https://salon-2-o4c3.onrender.com') {
-    alert('Please open the app via https://salon-2-o4c3.onrender.com/dashboard.html so login cookies work.');
-    window.location.href = 'https://salon-2-o4c3.onrender.com/dashboard.html';
+if (location.origin !== 'https://salon-2-r4ux.onrender.com') {
+    alert('Please open the app via https://salon-2-r4ux.onrender.com/dashboard.html so login cookies work.');
+    window.location.href = 'https://salon-2-r4ux.onrender.com/dashboard.html';
 }
 
 /* ---------------- MOBILE MENU ---------------- */
@@ -201,7 +201,7 @@ async function checkLogin() {
 
     try {
 
-        const res = await fetch("https://salon-2-o4c3.onrender.com/user/auth/check", {
+        const res = await fetch("https://salon-2-r4ux.onrender.com/user/auth/check", {
             method: "GET",
             credentials: "include"
         });
@@ -234,7 +234,7 @@ async function addToCart(id) {
 
     }
 
-    const res = await fetch(`https://salon-2-o4c3.onrender.com/service/add_cart/${id}`, {
+    const res = await fetch(`https://salon-2-r4ux.onrender.com/service/add_cart/${id}`, {
         method: "POST",
         credentials: "include"
     });
@@ -252,7 +252,7 @@ async function fetchServices() {
 
     try {
 
-        const res = await fetch("https://salon-2-o4c3.onrender.com/service/services");
+        const res = await fetch("https://salon-2-r4ux.onrender.com/service/services");
         const result = await res.json();
 
         const container = document.getElementById("services-container");
@@ -336,7 +336,7 @@ async function fetchOffers(){
 
     try{
 
-        const res = await fetch("https://salon-2-o4c3.onrender.com/offer/getOffers");
+        const res = await fetch("https://salon-2-r4ux.onrender.com/offer/getOffers");
         const result = await res.json();
 
         const container = document.getElementById("offers-container");

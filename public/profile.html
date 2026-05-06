@@ -116,7 +116,7 @@
 
         async function fetchProfile() {
             try {
-                const res = await fetch('https://salon-2-o4c3.onrender.com/user/getUserProfile');
+                const res = await fetch('https://salon-2-r4ux.onrender.com/user/getUserProfile');
                 const data = await res.json();
                 
                 document.getElementById('userName').innerText = data.user.name;
@@ -177,7 +177,7 @@
 
         async function cancelApp(id) {
             if(confirm("Are you sure you wish to terminate this reservation?")) {
-                await fetch(`https://salon-2-o4c3.onrender.com/appointment/delete/${id}`, { method: 'PUT' });
+                await fetch(`https://salon-2-r4ux.onrender.com/appointment/delete/${id}`, { method: 'PUT' });
                 fetchProfile();
             }
         }
@@ -189,7 +189,7 @@
 
       async function logout() {
   try {
-    const res = await fetch("https://salon-2-o4c3.onrender.com/user/logout", {
+    const res = await fetch("https://salon-2-r4ux.onrender.com/user/logout", {
       method: "GET",
       credentials: "include"
     });
