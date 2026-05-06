@@ -40,7 +40,9 @@ app.use(cors({
     "http://localhost:5500",
     "https://salon-2-r4ux.onrender.com"
   ],
-  credentials: true
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 
