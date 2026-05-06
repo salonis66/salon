@@ -34,7 +34,14 @@ app.use(express.urlencoded({ extended: true }))
 // In dev, frontend may be served from Live Server (localhost:5500) or from this backend (localhost:3000).
 
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "https://salon-2-r4ux.onrender.com"
+  ],
+  credentials: true
+}));
 
 
 
