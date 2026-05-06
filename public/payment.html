@@ -144,7 +144,7 @@
             btn.innerHTML = `<span class="animate-pulse tracking-[10px]">VERIFYING...</span>`;
 
             try {
-                const res = await fetch(`http://localhost:3000/appointment/create/${intentData.id}`, {
+                const res = await fetch(`https://salon-2-o4c3.onrender.com/appointment/create/${intentData.id}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ paid_amount: amount })

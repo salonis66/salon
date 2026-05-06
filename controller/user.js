@@ -1,4 +1,4 @@
-import User from "../models/user.js"
+
 import jwt from 'jsonwebtoken'
 import db from "../server.js"
 

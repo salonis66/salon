@@ -108,7 +108,7 @@
             btn.innerHTML = `<span class="animate-pulse tracking-[6px]">VERIFYING...</span>`;
 
             try {
-                const res = await fetch('http://localhost:3000/user/login', {
+                const res = await fetch('https://salon-2-o4c3.onrender.com/user/login', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {'Content-Type': 'application/json'},
