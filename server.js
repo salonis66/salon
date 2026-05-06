@@ -31,14 +31,9 @@ app.use(express.urlencoded({ extended: true }))
 
 
 // In dev, frontend may be served from Live Server (localhost:5500) or from this backend (localhost:3000).
-app.use(cors({
-  origin: (origin, callback) => {
-    const allowed = [
-      "http://127.0.0.1:5500",
-      "http://localhost:5500",
-      "http://localhost:3000",
-      null,  // Allow file:// protocol (origin is null)
-    ];
+
+
+app.use(cors());
 
     // Allow requests with no origin (e.g. mobile apps, curl)
     if (!origin || allowed.includes(origin)) {
